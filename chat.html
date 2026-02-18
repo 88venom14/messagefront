@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат</title>
+    <link rel="stylesheet" href="/Style/style.css">
+</head>
+<body>
+    <div class="messenger-container">
+        <div class="chat-header">
+            <a href="chats.html" class="back-btn">←</a>
+            <div class="chat-title" id="chatUserName">User#1234</div>
+            <button class="menu-btn" id="menuBtn">⋮</button>
+            
+            <div class="context-menu" id="contextMenu">
+                <button class="menu-item" onclick="addFriend()">Добавить в друзья</button>
+                <button class="menu-item" onclick="removeFriend()">Удалить из друзей</button>
+                <button class="menu-item" onclick="deleteChat()">Удалить чат</button>
+                <div class="menu-divider"></div>
+                <button class="menu-item" onclick="copyLink()">Скопировать ссылку</button>
+                <button class="menu-item danger" onclick="leaveChannel()">Выйти из канала</button>
+            </div>
+        </div>
+        
+        <div class="messages" id="messagesContainer">
+            <!-- Сообщения будут добавляться сюда через JS -->
+        </div>
+        
+        <div class="message-input-area">
+            <input type="text" class="message-field" id="messageInput" placeholder="Сообщение пользователя">
+            <button class="send-btn" onclick="sendMessage()">→</button>
+        </div>
+    </div>
+    
+    <script>
+        // Загружаем сообщения из localStorage при открытии страницы
+        let messages = JSON.parse(localStorage.getItem('chatMessages')) || [
+            {text: "Сообщение пользователя", type: 'received'},
+            {text: "Сообщение пользователя со стороны его аккаунта", type: 'sent'},
+            {text: "Сообщение пользователя со стороны его аккаунта", type: 'sent'}
+        ];
+        
+        // Отображаем сообщения
+        function displayMessages() {
+            const container = document.getElementById('messagesContainer');
+            container.innerHTML = '';
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = msg.type === 'received' ? 'message-left' : 'message-right';
+                messageDiv.textContent = msg.text;
+                container.appendChild(messageDiv);
+            });
+        }
+        
+        // Отправка нового сообщения
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            if (input.value.trim() !== '') {
+                messages.push({text: input.value, type: 'sent'});
+                localStorage.setItem('chatMessages', JSON.stringify(messages));
+                displayMessages();
+                input.value = '';
+            }
+        }
+        
+        // Нажатие Enter для отправки
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Меню
+        document.getElementById('menuBtn').onclick = function(e) {
+            e.stopPropagation();
+            document.getElementById('contextMenu').classList.toggle('show');
+        };
+        
+        document.onclick = function() {
+            document.getElementById('contextMenu').classList.remove('show');
+        };
+        
+        // Функции меню
+        function addFriend() {
+            alert('Запрос в друзья отправлен!');
+            localStorage.setItem('friendRequest', 'sent');
+        }
+        
+        function removeFriend() {
+            if (confirm('Удалить из друзей?')) {
+                alert('Пользователь удален из друзей');
+            }
+        }
+        
+        function deleteChat() {
+            if (confirm('Удалить чат?')) {
+                messages = [];
+                localStorage.setItem('chatMessages', JSON.stringify(messages));
+                displayMessages();
+            }
+        }
+        
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Ссылка скопирована!');
+        }
+        
+        function leaveChannel() {
+            if (confirm('Выйти из канала?')) {
+                window.location.href = 'chats.html';
+            }
+        }
+        
+        // Показываем сообщения при загрузке
+        displayMessages();
+    </script>
+</body>
+</html>

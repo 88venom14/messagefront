@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат</title>
+    <link rel="stylesheet" href="Style/style.css">
+</head>
+<body class="grid">
+    <div class="sidemessegebar">
+        <div>
+            <img id="useravatar" class="user-avatar" src="" alt="">
+            <h1 id="userid" class="user-name">User#id</h1>
+        </div>
+            <input id="searchInput" class="searchinput" type="text" dir="auto" placeholder="Поиск" onkeyup="searchUsers()">
+        <div>
+            <button id="btnchats" class="btn-chats" type="submit">Чаты</button>
+            <button id="btnfriends" class="btn-friends" type="submit">Друзья</button>
+        </div>
+            <div class="messenger-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск..." onkeyup="searchUsers()">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('chats')" id="chatsTab">Чаты</div>
+                <div class="tab" onclick="switchTab('friends')" id="friendsTab">Друзья</div>
+            </div>
+            <div id="chatsList"></div>
+            <div id="friendsList" style="display: none;"></div>
+            <div class="action-buttons">
+                <button class="action-btn gray" onclick="window.location.href='add-friends.html'">Добавить в друзья</button>
+                <button class="action-btn green" onclick="window.location.href='create-channel.html'">Создать канал</button>
+            </div>
+            </div>
+    </div>
+            <div class="chat-header">
+                <img id="useravatar1" class="user-avatar1" src="" alt="">
+                <a href="login.html" class="back-btn">назад←</a>
+                <div class="chat-title" id="chatUserName">Userid</div>
+                <button class="menu-btn" id="menuBtn">···</button>
+            <div class="context-menu" id="contextMenu">
+                <button class="menu-item" onclick="addFriend()">Добавить в друзья</button>
+                <button class="menu-item" onclick="removeFriend()">Удалить из друзей</button>
+                <button class="menu-item" onclick="deleteChat()">Удалить чат</button>
+                <div class="menu-divider"></div>
+                <button class="menu-item" onclick="copyLink()">Скопировать ссылку</button>
+                <button class="menu-item danger" onclick="leaveChannel()">Выйти из канала</button>
+            </div>
+            <div class="messages" id="messagesContainer"></div>
+            <div class="message-input-area">
+                <input type="text" class="message-field" id="messageInput" placeholder="Сообщение пользователя">
+                <button class="send-btn" onclick="sendMessage()">→</button>
+            </div>
+            </div>
+</body>
+</html>
